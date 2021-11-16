@@ -8,7 +8,9 @@ public interface IRapipayClientService {
 	
 	public RapipayClientDTOUser registerClient(RapipayClient client);
 	public RapipayClientDTOUser getCLientBasedOnId(int id);
-	public ClientBankInfoDTO getClintBankInfo(int id);
+	public RapipayClientDTOUser getCLientBasedOnClientName(String clientName);
+	
+	
 	
 
 }

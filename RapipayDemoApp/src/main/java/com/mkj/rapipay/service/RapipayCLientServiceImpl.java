@@ -12,24 +12,63 @@ import com.mkj.rapipay.repository.RapipayClientRepository;
 public class RapipayCLientServiceImpl implements IRapipayClientService {
 
 	@Autowired
-	private RapipayClientRepository rapipayClientRepository;
+	private RapipayClientRepository jpaRepository;   // Actual name should be : rapipayClientRepository
 	
 	@Override
 	public RapipayClientDTOUser registerClient(RapipayClient client) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		RapipayClient savedClient =   jpaRepository.save(client);
+		
+		System.out.println("=====>> After Save inside CLient Servive Register "+savedClient);
+		// convertor to convert to DTO Object
+		RapipayClientDTOUser clientDTO = entityToDTOConvertor(savedClient);
+		
+		System.out.println("=====>> After DTO inside CLient Servive  "+clientDTO);
+		
+		return clientDTO;
 	}
 
 	@Override
-	public RapipayClientDTOUser getCLientBasedOnId(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public RapipayClientDTOUser getCLientBasedOnId(int searchId) {
+		RapipayClient rapipayCLient =jpaRepository.findById(searchId).get();
+		// convert client to DTO
+		
+		RapipayClientDTOUser clientDTO = entityToDTOConvertor(rapipayCLient);
+		return clientDTO;
+		
 	}
+
+
 
 	@Override
-	public ClientBankInfoDTO getClintBankInfo(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public RapipayClientDTOUser getCLientBasedOnClientName(String clientName) throws javax.persistence.NoResultException
+	{
+		
+		return entityToDTOConvertor(
+				jpaRepository.getClientBasedOnClientName(clientName));
 	}
-
+	
+	
+	
+	
+	
+	// ==================   Convertor =====================
+	
+public RapipayClientDTOUser entityToDTOConvertor(RapipayClient savedClient)
+{
+	RapipayClientDTOUser clientDTO = new RapipayClientDTOUser();
+	clientDTO.setAccountNumber(savedClient.getClientId());
+	clientDTO.setClientName(savedClient.getClientName());
+	clientDTO.setBalance(savedClient.getBalance());
+	clientDTO.setBankName(savedClient.getBankInfo().getBankName());
+	return clientDTO;
 }
+	
+	
+	
+	
+	
+	
+	
+	
+}// end of service 

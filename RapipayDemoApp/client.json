@@ -1,0 +1,11 @@
+{
+	"clientName": "Ramesh",
+	"password": "a",
+	"balance": 1000,
+	"cashback": 0,
+	"bankInfo": {
+		"bankName": "HDFC-Bank",
+		"ifscCode": "HDFC123",
+		"mimBalance": "5000"
+	}
+}
